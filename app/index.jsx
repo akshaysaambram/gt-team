@@ -15,6 +15,7 @@ export default function Index() {
           <Text style={[styles.subtitle, { color: theme.colors.onBackground }]}>
             This is the first page of your app.
           </Text>
+          <Text>Black</Text>
         </View>
         <TouchableOpacity style={[styles.button, { backgroundColor: theme.colors.primary }]}>
           <Text style={[styles.buttonText, { color: theme.colors.onPrimary }]}>Show Details</Text>
