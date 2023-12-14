@@ -15,7 +15,7 @@ export default function App() {
     <View
       className="flex-1"
       style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <View className="flex-1 items-center justify-center gap-2" style={styles.main}>
+      <View className="flex-1 items-center justify-center gap-y-2" style={styles.main}>
         <Text style={[styles.title, { color: theme.colors.primary }]}>uGc</Text>
         <Text style={[styles.subtitle, { color: theme.colors.onBackground }]}>
           Unity Growth Co.

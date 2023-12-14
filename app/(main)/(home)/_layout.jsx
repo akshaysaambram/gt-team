@@ -10,8 +10,19 @@ export default function HomeLayout() {
         options={{ headerTitle: 'Home', headerStyle: { backgroundColor: theme.colors.primary } }}
       />
       <Stack.Screen
+        name="team"
+        options={{ headerTitle: 'Team', headerStyle: { backgroundColor: theme.colors.primary } }}
+      />
+      <Stack.Screen
         name="profile"
         options={{ headerTitle: 'Profile', headerStyle: { backgroundColor: theme.colors.primary } }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerTitle: 'Team Profile',
+          headerStyle: { backgroundColor: theme.colors.primary },
+        }}
       />
     </Stack>
   );

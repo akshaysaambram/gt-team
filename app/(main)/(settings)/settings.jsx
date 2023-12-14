@@ -12,7 +12,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 
-import useAppStore from '../store/appStore';
+import useAppStore from '../../store/appStore';
 
 export default function Settings() {
   const theme = useTheme();
@@ -26,6 +26,8 @@ export default function Settings() {
   const setThemeScheme = useAppStore((state) => state.setThemeScheme);
   const animationLoop = useAppStore((state) => state.animationLoop);
   const setAnimationLoop = useAppStore((state) => state.setAnimationLoop);
+
+  const [expandList, setExpandList] = useState(false);
 
   return (
     <View className="flex-1 p-4" style={{ backgroundColor: theme.colors.background }}>
@@ -58,6 +60,22 @@ export default function Settings() {
             }}
           />
         </List.Section>
+        <List.Accordion
+          titleStyle={{ color: theme.colors.primary }}
+          expanded={expandList}
+          onPress={() => setExpandList(!expandList)}
+          title="App info"
+          left={(props) => (
+            <List.Icon {...props} color={theme.colors.primary} icon="help-circle-outline" />
+          )}>
+          <List.Item
+            title="App info"
+            onPress={() => {
+              setExpandList(false);
+              router.push('/app_info');
+            }}
+          />
+        </List.Accordion>
       </View>
 
       <Portal>
@@ -66,37 +84,63 @@ export default function Settings() {
           <Dialog.Content>
             {dialogContent === 'Theme' ? (
               <RadioButton.Group
-                className="gap-1"
                 onValueChange={(newValue) => {
                   setThemeScheme(newValue);
                   setVisible(false);
                 }}
                 value={themeScheme}>
-                <View className="flex-row gap-3">
+                <View className="flex-row items-center gap-x-3">
                   <RadioButton value="light" />
-                  <Text className="self-center">Light</Text>
+                  <Text
+                    className="flex-1"
+                    onPress={() => {
+                      setThemeScheme('light');
+                      setVisible(false);
+                    }}>
+                    Light
+                  </Text>
                 </View>
-                <View className="flex-row items-center gap-3">
+                <View className="flex-row items-center gap-x-3">
                   <RadioButton value="dark" />
-                  <Text>Dark</Text>
+                  <Text
+                    className="flex-1"
+                    onPress={() => {
+                      setThemeScheme('dark');
+                      setVisible(false);
+                    }}>
+                    Dark
+                  </Text>
                 </View>
               </RadioButton.Group>
             ) : (
               <RadioButton.Group
-                className="gap-1"
                 onValueChange={(newValue) => {
                   setAnimationLoop(newValue);
                   setVisible(false);
                 }}
                 value={animationLoop}>
-                <View className="flex-row gap-3 ">
+                <View className="flex-row items-center gap-x-3">
                   <RadioButton value="stop" />
-                  <Text className="self-center">Stop</Text>
+                  <Text
+                    className="flex-1"
+                    onPress={() => {
+                      setAnimationLoop('stop');
+                      setVisible(false);
+                    }}>
+                    Stop
+                  </Text>
                 </View>
 
-                <View className="flex-row items-center gap-3">
+                <View className="flex-row items-center gap-x-3">
                   <RadioButton value="loop" />
-                  <Text>Loop</Text>
+                  <Text
+                    className="flex-1"
+                    onPress={() => {
+                      setAnimationLoop('loop');
+                      setVisible(false);
+                    }}>
+                    Loop
+                  </Text>
                 </View>
               </RadioButton.Group>
             )}

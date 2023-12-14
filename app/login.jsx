@@ -22,9 +22,21 @@ export default function Login() {
 
   return (
     <View
-      className="flex-1 items-center justify-center gap-3"
+      className="flex-1 items-center justify-center gap-y-3"
       style={{ backgroundColor: theme.colors.background }}>
-      <View className="items-center justify-center gap-1">
+      {/* <LottieView
+        autoPlay
+        loop={animationLoop}
+        style={{
+          width: hs(600),
+          height: vs(900),
+          position: 'absolute',
+        }}
+        // Find more Lottie files at https://lottiefiles.com/featured
+        source={require('../assets/lottie-files/splash.json')}
+      /> */}
+
+      <View className="items-center gap-y-1">
         <Text
           variant="displayMedium"
           style={[styles.textDisplayMedium, { color: theme.colors.primary }]}>
@@ -34,7 +46,7 @@ export default function Login() {
           Unity Growth Co.
         </Text>
       </View>
-      <View className="items-center">
+      <View className="">
         <LottieView
           autoPlay
           loop={animationLoop}
@@ -46,7 +58,7 @@ export default function Login() {
           source={require('../assets/lottie-files/login.json')}
         />
       </View>
-      <View className="gap-4">
+      <View className="gap-y-4">
         <TextInput
           mode="outlined"
           label="Email"
@@ -64,14 +76,10 @@ export default function Login() {
           style={styles.textInput}
         />
       </View>
-      <Button className="items-center justify-center" mode="text" style={styles.btnForgetPassword}>
+      <Button className="" mode="text" style={styles.btnForgetPassword}>
         Forget Password?
       </Button>
-      <Button
-        className="items-center justify-center"
-        mode="contained"
-        style={styles.btnLogin}
-        onPress={handleLogin}>
+      <Button className="" mode="contained" style={styles.btnLogin} onPress={handleLogin}>
         Login
       </Button>
     </View>

@@ -1,12 +1,10 @@
 import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Avatar, Button, IconButton, Text, useTheme } from 'react-native-paper';
 
 import { hs, vs, ms } from '../../../utils/metrics';
-
-import LottieView from 'lottie-react-native';
-
 import useAppStore from '../../store/appStore';
 
 export default function Home() {
@@ -23,8 +21,8 @@ export default function Home() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-row items-center justify-between p-4">
-        <Avatar.Text size={56} label="Ar" />
-        <IconButton icon="account" size={20} onPress={() => console.log('Pressed')} />
+        <Avatar.Text size={ms(56)} label="Ar" />
+        <IconButton icon="account" size={ms(20)} onPress={() => router.push('/profile')} />
       </View>
       <View className="px-4">
         <Text variant="displaySmall" style={styles.textDisplaySmall}>
@@ -55,10 +53,10 @@ export default function Home() {
           we not only grow stronger individually but also flourish together.
         </Text>
       </View>
-      <View className="flex-row items-center justify-center mb-3 gap-3">
+      <View className="flex-row items-center justify-center mb-3 gap-x-4">
         <Button mode="contained">LinkedIn</Button>
-        <Button mode="outlined" onPress={() => router.replace('/login')}>
-          Logout
+        <Button mode="outlined" onPress={() => router.push('/team')}>
+          Team
         </Button>
       </View>
     </ScrollView>

@@ -8,7 +8,7 @@ export default function MainLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: { backgroundColor: theme.colors.primary },
-        tabBarActiveTintColor: theme.colors.onPrimary,
+        tabBarActiveTintColor: theme.colors.background,
       }}>
       <Tabs.Screen
         name="(home)"
@@ -21,13 +21,13 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="(settings)"
         options={{
           title: 'Settings',
           tabBarIcon: ({ size, color }) => {
             return <Icon source="cog" size={size} color={color} />;
           },
-          headerStyle: { backgroundColor: theme.colors.primary },
+          headerShown: false,
         }}
       />
     </Tabs>
