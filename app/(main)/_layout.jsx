@@ -8,7 +8,7 @@ export default function MainLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: { backgroundColor: theme.colors.primary },
-        tabBarActiveTintColor: theme.colors.background,
+        tabBarActiveTintColor: 'rgb(29, 27, 30)',
       }}>
       <Tabs.Screen
         name="(home)"

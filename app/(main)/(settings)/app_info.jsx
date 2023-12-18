@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Icon, Text, useTheme } from 'react-native-paper';
 
 import { ms } from '../../../utils/metrics';
 
@@ -28,7 +28,10 @@ export default function AppInfo() {
             uGc
           </Text>
         </View>
-        <Text variant="bodyMedium">2010-2023 Unity Growth Co.</Text>
+        <View className="flex-row items-center justify-center gap-x-1">
+          <Icon className="self-center" source="copyright" size={ms(16)} />
+          <Text variant="bodyMedium">2010-2023 Unity Growth Co.</Text>
+        </View>
       </View>
     </View>
   );

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, useColorScheme } from 'react-native';
 import {
   Button,
   Dialog,
@@ -17,6 +17,7 @@ import useAppStore from '../../store/appStore';
 export default function Settings() {
   const theme = useTheme();
   const router = useRouter();
+  const colorScheme = useColorScheme();
 
   const [visible, setVisible] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(false);
@@ -109,6 +110,17 @@ export default function Settings() {
                       setVisible(false);
                     }}>
                     Dark
+                  </Text>
+                </View>
+                <View className="flex-row items-center gap-x-3">
+                  <RadioButton value="system" />
+                  <Text
+                    className="flex-1"
+                    onPress={() => {
+                      setThemeScheme('system');
+                      setVisible(false);
+                    }}>
+                    System
                   </Text>
                 </View>
               </RadioButton.Group>

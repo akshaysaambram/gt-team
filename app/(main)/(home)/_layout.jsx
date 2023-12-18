@@ -18,6 +18,13 @@ export default function HomeLayout() {
         options={{ headerTitle: 'Profile', headerStyle: { backgroundColor: theme.colors.primary } }}
       />
       <Stack.Screen
+        name="edit_profile"
+        options={{
+          headerTitle: 'Update Profile',
+          headerStyle: { backgroundColor: theme.colors.primary },
+        }}
+      />
+      <Stack.Screen
         name="[id]"
         options={{
           headerTitle: 'Team Profile',
