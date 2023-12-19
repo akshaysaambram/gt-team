@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Button, TextInput, useTheme } from 'react-native-paper';
 import { hs, vs, ms } from 'utils/metrics';
 
@@ -15,47 +15,58 @@ export default function EditProfile() {
   });
 
   return (
-    <View
-      className="flex-1 items-center justify-center p-4 gap-y-3"
-      style={{ backgroundColor: theme.colors.background }}>
-      <Avatar.Text className="self-center" size={ms(124)} label="Ar" />
-      <TextInput
-        label="Fullname"
-        placeholder="Fullname"
-        mode="outlined"
-        value={userDoc.fullName}
-        onChangeText={(txt) => setUserDoc({ ...userDoc, fullName: txt })}
-        style={styles.textInput}
-      />
-      <TextInput
-        label="Email"
-        placeholder="Email"
-        mode="outlined"
-        value={userDoc.email}
-        onChangeText={(txt) => setUserDoc({ ...userDoc, email: txt })}
-        style={styles.textInput}
-      />
-      <TextInput
-        label="Role"
-        placeholder="Role"
-        mode="outlined"
-        value={userDoc.role}
-        onChangeText={(txt) => setUserDoc({ ...userDoc, role: txt })}
-        style={styles.textInput}
-      />
-      <TextInput
-        label="Phone Number"
-        placeholder="Phone Number"
-        mode="outlined"
-        value={userDoc.phoneNumber}
-        onChangeText={(txt) => setUserDoc({ ...userDoc, phoneNumber: txt })}
-        keyboardType="number-pad"
-        style={styles.textInput}
-      />
-      <Button mode="contained" style={styles.btnSave} onPress={() => router.back()}>
-        Save
-      </Button>
-    </View>
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        flexGrow: 1,
+        padding: ms(16),
+        backgroundColor: theme.colors.background,
+      }}>
+      <View className="flex-grow items-center justify-center" style={{ gap: vs(24) }}>
+        <Avatar.Text className="self-center" size={ms(124)} label="Ar" />
+
+        <TextInput
+          label="Fullname"
+          placeholder="Fullname"
+          mode="outlined"
+          textContentType="name"
+          value={userDoc.fullName}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, fullName: txt })}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Email"
+          placeholder="Email"
+          mode="outlined"
+          textContentType="emailAddress"
+          value={userDoc.email}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, email: txt })}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Role"
+          placeholder="Role"
+          mode="outlined"
+          textContentType="jobTitle"
+          value={userDoc.role}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, role: txt })}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Phone Number"
+          placeholder="Phone Number"
+          mode="outlined"
+          textContentType="telephoneNumber"
+          value={userDoc.phoneNumber}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, phoneNumber: txt })}
+          keyboardType="number-pad"
+          style={styles.textInput}
+        />
+        <Button mode="contained" style={styles.btnSave} onPress={() => router.back()}>
+          Save
+        </Button>
+      </View>
+    </ScrollView>
   );
 }
 

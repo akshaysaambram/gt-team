@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 
 const useAppStore = create((set) => ({
-  themeScheme: 'light',
+  isInitialLaunch: true,
+  setIsInitialLaunch: (payload) => set(() => ({ isInitialLaunch: payload })),
+
+  themeScheme: 'system',
   setThemeScheme: (payload) => set(() => ({ themeScheme: payload })),
 
   animationLoop: 'loop',

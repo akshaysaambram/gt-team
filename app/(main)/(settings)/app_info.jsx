@@ -1,17 +1,21 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Icon, Text, useTheme } from 'react-native-paper';
 
-import { ms } from '../../../utils/metrics';
+import { vs, ms } from '../../../utils/metrics';
 
 export default function AppInfo() {
   const theme = useTheme();
 
   return (
-    <View
-      className="flex-1 items-center justify-center gap-y-4"
-      style={{ backgroundColor: theme.colors.background }}>
-      <View className="items-center gap-y-2">
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        flexGrow: 1,
+        padding: vs(12),
+        backgroundColor: theme.colors.background,
+      }}>
+      <View className="flex-grow items-center justify-center" style={{ gap: vs(12) }}>
         <Text variant="displayMedium" style={styles.textDisplayMedium}>
           uGc
         </Text>
@@ -25,7 +29,7 @@ export default function AppInfo() {
           className="items-center justify-center mb-4 p-4"
           style={{
             backgroundColor: theme.colors.onBackground,
-            borderRadius: ms(16),
+            borderRadius: ms(18),
           }}>
           <Text
             variant="bodyLarge"
@@ -40,7 +44,7 @@ export default function AppInfo() {
           </Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

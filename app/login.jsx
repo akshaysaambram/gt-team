@@ -1,29 +1,42 @@
 import { useRouter } from 'expo-router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 
 import useAppStore from './store/appStore';
+import { auth } from '../utils/firebase';
 import { hs, vs, ms } from '../utils/metrics';
 
 export default function Login() {
   const theme = useTheme();
   const router = useRouter();
 
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState('akshaysaambram@gmail.com');
+  const [password, setPassword] = useState('Akshay123');
+  const [secureText, setSecureText] = useState(true);
 
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
 
-  function handleLogin() {
-    router.replace('/(main)/home');
+  async function handleLogin() {
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {})
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   }
 
   return (
-    <View
-      className="flex-1 items-center justify-center gap-y-3"
-      style={{ backgroundColor: theme.colors.background }}>
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.colors.background,
+        gap: vs(24),
+      }}>
       <View className="items-center gap-y-1">
         <Text
           variant="displayMedium"
@@ -48,30 +61,54 @@ export default function Login() {
           mode="outlined"
           label="Email"
           placeholder="Email"
+          textContentType="emailAddress"
           value={email}
           onChangeText={(txt) => setEmail(txt)}
-          style={styles.textInput}
+          style={[styles.textInput, { fontSize: ms(14) }]}
         />
         <TextInput
           mode="outlined"
           label="Password"
           placeholder="Password"
+          textContentType="password"
+          secureTextEntry={secureText}
           value={password}
           onChangeText={(txt) => setPassword(txt)}
-          style={styles.textInput}
+          style={[styles.textInput, { fontSize: ms(14) }]}
+          right={
+            secureText ? (
+              <TextInput.Icon
+                icon="eye-off"
+                style={{ marginTop: vs(16) }}
+                onPress={() => setSecureText(false)}
+              />
+            ) : (
+              <TextInput.Icon
+                icon="eye"
+                style={{ marginTop: vs(16) }}
+                onPress={() => setSecureText(true)}
+              />
+            )
+          }
         />
       </View>
-      <Button className="items-center justify-center" mode="text" style={styles.btnForgetPassword}>
+      <Button
+        mode="text"
+        labelStyle={{ fontSize: ms(14) }}
+        className="items-center justify-center"
+        style={styles.btnForgetPassword}>
         Forget Password?
       </Button>
       <Button
-        className="items-center justify-center"
         mode="contained"
-        style={styles.btnLogin}
+        className="items-center justify-center"
+        labelStyle={{ fontSize: ms(14) }}
+        contentStyle={styles.btnLogin}
+        style={{ borderRadius: ms(50) }}
         onPress={handleLogin}>
         Login
       </Button>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -94,8 +131,7 @@ const styles = StyleSheet.create({
   },
   btnForgetPassword: { width: hs(175), height: vs(50) },
   btnLogin: {
-    // width: hs(100),
-    // height: vs(50),
-    transform: [{ scale: ms(1) }],
+    width: hs(100),
+    height: vs(50),
   },
 });

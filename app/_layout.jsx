@@ -37,9 +37,14 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="(onboardings)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="login"
           options={{
-            title: 'Login',
             headerShown: false,
           }}
         />

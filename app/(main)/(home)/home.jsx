@@ -15,46 +15,53 @@ export default function Home() {
 
   return (
     <ScrollView
+      className="flex-1"
       contentContainerStyle={{
-        flex: 1,
-        justifyContent: 'space-evenly',
+        flexGrow: 1,
+        padding: ms(12),
         backgroundColor: theme.colors.background,
       }}>
-      <View className="flex-row items-center justify-between p-4">
-        <Avatar.Text size={ms(56)} label="Ar" />
-        <IconButton icon="account" size={ms(20)} onPress={() => router.push('/profile')} />
-      </View>
-      <View className="px-4">
-        <Text variant="displaySmall" style={styles.textDisplaySmall}>
-          Hello Akshay,
-        </Text>
-        <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          Machine Learning Engineer
-        </Text>
-        <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          9347855546
-        </Text>
-      </View>
-      <LottieView
-        autoPlay
-        loop={animationLoop}
-        style={{
-          width: hs(200),
-          height: vs(200),
-        }}
-        source={require('../../../assets/lottie-files/home.json')}
-      />
-      <View className="p-3">
-        <Text className="text-center" variant="bodyLarge" style={styles.textBodyLarge}>
-          Through hard work and shared endeavors, we sow the seeds of collective success. In unity,
-          we not only grow stronger individually but also flourish together.
-        </Text>
-      </View>
-      <View className="flex-row items-center justify-center mb-3 gap-x-4">
-        <Button mode="contained">LinkedIn</Button>
-        <Button mode="outlined" onPress={() => router.push('/team')}>
-          Team
-        </Button>
+      <View className="flex-grow" style={{ gap: vs(12) }}>
+        <View className="flex-row items-center justify-between px-4">
+          <Avatar.Text size={ms(56)} label="Ar" />
+          <IconButton icon="account" size={ms(20)} onPress={() => router.push('/profile')} />
+        </View>
+        <View className="px-4">
+          <Text variant="displaySmall" style={styles.textDisplaySmall}>
+            Hello Akshay,
+          </Text>
+          <Text variant="bodyMedium" style={styles.textBodyMedium}>
+            Machine Learning Engineer
+          </Text>
+          <Text variant="bodyMedium" style={styles.textBodyMedium}>
+            9347855546
+          </Text>
+        </View>
+        <View className="items-center">
+          <LottieView
+            autoPlay
+            loop={animationLoop}
+            style={{
+              width: hs(200),
+              height: vs(200),
+            }}
+            source={require('../../../assets/lottie-files/home.json')}
+          />
+        </View>
+        <View className="p-3">
+          <Text className="text-center" variant="bodyLarge" style={styles.textBodyLarge}>
+            Through hard work and shared endeavors, we sow the seeds of collective success. In
+            unity, we not only grow stronger individually but also flourish together.
+          </Text>
+        </View>
+        <View className="flex-row items-center justify-center mb-3 gap-x-4">
+          <Button mode="contained" style={styles.btn}>
+            LinkedIn
+          </Button>
+          <Button mode="outlined" style={styles.btn} onPress={() => router.push('/team')}>
+            Team
+          </Button>
+        </View>
       </View>
     </ScrollView>
   );
@@ -79,4 +86,5 @@ const styles = StyleSheet.create({
     letterSpacing: ms(0.25),
     lineHeight: ms(20),
   },
+  btn: {},
 });

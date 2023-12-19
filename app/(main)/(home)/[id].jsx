@@ -1,30 +1,36 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Text, useTheme } from 'react-native-paper';
 
-import { ms } from '../../../utils/metrics';
+import { vs, ms } from '../../../utils/metrics';
 
 export default function Profile() {
   const theme = useTheme();
 
   return (
-    <View
-      className="flex-1 items-center justify-center p-4 gap-y-3"
-      style={{ backgroundColor: theme.colors.background }}>
-      <Avatar.Text size={ms(124)} label="Ar" />
-      <Text variant="headlineLarge" style={styles.textHeadlineLarge}>
-        Akshay Saambram
-      </Text>
-      <Text variant="titleMedium" style={styles.textTitleMedium}>
-        akshaysaambram@gmail.com
-      </Text>
-      <Text variant="bodyMedium" style={styles.textBodyMedium}>
-        Machine Learning Engineer
-      </Text>
-      <Text variant="bodyMedium" style={styles.textBodyMedium}>
-        9347855546
-      </Text>
-    </View>
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        flexGrow: 1,
+        padding: vs(12),
+        backgroundColor: theme.colors.background,
+      }}>
+      <View className="flex-grow items-center justify-center p-4" style={{ gap: vs(16) }}>
+        <Avatar.Text size={ms(124)} label="Ar" />
+        <Text variant="headlineLarge" style={styles.textHeadlineLarge}>
+          Akshay Saambram
+        </Text>
+        <Text variant="titleMedium" style={styles.textTitleMedium}>
+          akshaysaambram@gmail.com
+        </Text>
+        <Text variant="bodyMedium" style={styles.textBodyMedium}>
+          Machine Learning Engineer
+        </Text>
+        <Text variant="bodyMedium" style={styles.textBodyMedium}>
+          9347855546
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 

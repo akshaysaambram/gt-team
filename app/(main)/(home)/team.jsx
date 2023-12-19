@@ -1,22 +1,18 @@
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { Avatar, Button, Card } from 'react-native-paper';
+import { Avatar, Button, Card, useTheme } from 'react-native-paper';
 import { hs, vs, ms } from 'utils/metrics';
 
 export default function Team() {
-  const swipeableRefs = useRef([]);
+  const theme = useTheme();
   const router = useRouter();
+  const swipeableRefs = useRef([]);
 
   const [openIndex, setOpenIndex] = useState(null);
 
-  const renderRightActions = (index) => (progress, dragX) => {
-    const trans = dragX.interpolate({
-      inputRange: [0, 75, 100],
-      outputRange: [0, 0.5, 1],
-    });
-
+  const renderRightActions = (index) => () => {
     return (
       <View style={styles.rightActions}>
         <View style={styles.swipeableButtonContainer}>
@@ -41,7 +37,7 @@ export default function Team() {
     });
   };
 
-  const renderItem = ({ item, index }) => (
+  const renderItem = ({ index }) => (
     <Swipeable
       ref={(ref) => (swipeableRefs.current[index] = ref)}
       renderRightActions={renderRightActions(index)}
@@ -57,14 +53,35 @@ export default function Team() {
     </Swipeable>
   );
 
+  // useCallback(() => {
+  //   const closeAllSwipes = () => {
+  //     swipeableRefs.current.forEach((swipeable) => {
+  //       if (swipeable && swipeable.close) {
+  //         swipeable.close();
+  //       }
+  //     });
+  //   };
+
+  //   closeAllSwipes();
+  //   setOpenIndex(null);
+  // }, []);
+
   return (
-    <View>
-      <FlatList
-        data={Array.from({ length: 4 })}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={renderItem}
-      />
-    </View>
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={{
+        flexGrow: 1,
+        padding: ms(16),
+        backgroundColor: theme.colors.background,
+      }}>
+      <View className="flex-grow">
+        <FlatList
+          data={Array.from({ length: 14 })}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={renderItem}
+        />
+      </View>
+    </ScrollView>
   );
 }
 

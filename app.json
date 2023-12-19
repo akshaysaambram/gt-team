@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "gt-team",
+    "name": "uGc",
     "slug": "gt-team",
     "version": "1.0.0",
 
@@ -27,15 +27,16 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "userInterfaceStyle": "automatic"
     },
     "android": {
+      "supportsTablet": false,
+      "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "userInterfaceStyle": "automatic"
+      }
     }
   }
 }
