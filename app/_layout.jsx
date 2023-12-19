@@ -1,8 +1,8 @@
 import { Stack } from 'expo-router';
+import { useColorScheme } from 'react-native';
 import { MD3LightTheme, MD3DarkTheme, PaperProvider } from 'react-native-paper';
 
 import useAppStore from './store/appStore';
-import { useColorScheme } from 'react-native';
 
 const LightTheme = {
   ...MD3LightTheme,
@@ -41,8 +41,6 @@ export default function RootLayout() {
           options={{
             title: 'Login',
             headerShown: false,
-            // headerTitleStyle: { color: theme.colors.onPrimary },
-            // headerStyle: { backgroundColor: theme.colors.primary },
           }}
         />
         <Stack.Screen name="(main)" options={{ headerShown: false }} />

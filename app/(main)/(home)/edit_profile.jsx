@@ -2,7 +2,6 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Button, TextInput, useTheme } from 'react-native-paper';
-
 import { hs, vs, ms } from 'utils/metrics';
 
 export default function EditProfile() {
@@ -53,7 +52,7 @@ export default function EditProfile() {
         keyboardType="number-pad"
         style={styles.textInput}
       />
-      <Button mode="contained" onPress={() => router.back()}>
+      <Button mode="contained" style={styles.btnSave} onPress={() => router.back()}>
         Save
       </Button>
     </View>
@@ -64,5 +63,8 @@ const styles = StyleSheet.create({
   textInput: {
     width: hs(300),
     height: vs(64),
+  },
+  btnSave: {
+    transform: [{ scale: ms(1) }],
   },
 });

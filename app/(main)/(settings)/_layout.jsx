@@ -5,15 +5,9 @@ export default function SettingsLayout() {
   const theme = useTheme();
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="settings"
-        options={{ title: 'Settings', headerStyle: { backgroundColor: theme.colors.primary } }}
-      />
-      <Stack.Screen
-        name="app_info"
-        options={{ title: 'App Info', headerStyle: { backgroundColor: theme.colors.primary } }}
-      />
+    <Stack screenOptions={{ headerStyle: { backgroundColor: theme.colors.primary } }}>
+      <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+      <Stack.Screen name="app_info" options={{ title: 'App Info' }} />
     </Stack>
   );
 }

@@ -8,8 +8,8 @@ import { hs, vs, ms } from '../../../utils/metrics';
 import useAppStore from '../../store/appStore';
 
 export default function Home() {
-  const router = useRouter();
   const theme = useTheme();
+  const router = useRouter();
 
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
 
@@ -35,18 +35,15 @@ export default function Home() {
           9347855546
         </Text>
       </View>
-      <View className="items-center p-3">
-        <LottieView
-          autoPlay
-          loop={animationLoop}
-          style={{
-            width: hs(200),
-            height: vs(200),
-          }}
-          // Find more Lottie files at https://lottiefiles.com/featured
-          source={require('../../../assets/lottie-files/home.json')}
-        />
-      </View>
+      <LottieView
+        autoPlay
+        loop={animationLoop}
+        style={{
+          width: hs(200),
+          height: vs(200),
+        }}
+        source={require('../../../assets/lottie-files/home.json')}
+      />
       <View className="p-3">
         <Text className="text-center" variant="bodyLarge" style={styles.textBodyLarge}>
           Through hard work and shared endeavors, we sow the seeds of collective success. In unity,
@@ -70,16 +67,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: ms(44),
   },
-  textBodyMedium: {
-    fontSize: ms(14),
-    fontWeight: '400',
-    letterSpacing: ms(0.25),
-    lineHeight: ms(20),
-  },
   textBodyLarge: {
     fontSize: ms(16),
     fontWeight: '400',
     letterSpacing: ms(0.15),
     lineHeight: ms(24),
+  },
+  textBodyMedium: {
+    fontSize: ms(14),
+    fontWeight: '400',
+    letterSpacing: ms(0.25),
+    lineHeight: ms(20),
   },
 });

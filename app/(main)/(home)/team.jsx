@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Avatar, Button, Card } from 'react-native-paper';
+import { hs, vs, ms } from 'utils/metrics';
 
 export default function Team() {
   const swipeableRefs = useRef([]);
@@ -46,11 +47,11 @@ export default function Team() {
       renderRightActions={renderRightActions(index)}
       overshootRight={false}
       onSwipeableWillOpen={() => closeAllSwipesExcept(index)}>
-      <Card style={{ margin: 8 }}>
+      <Card style={{ margin: ms(8) }}>
         <Card.Title
           title="Akshay Saambram"
           subtitle="Machine Learning Engineer"
-          left={(props) => <Avatar.Text {...props} size={48} label="Ar" />}
+          left={(props) => <Avatar.Text {...props} size={ms(48)} label="Ar" />}
         />
       </Card>
     </Swipeable>
@@ -69,13 +70,13 @@ export default function Team() {
 
 const styles = StyleSheet.create({
   rightActions: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    flex: 1,
   },
   swipeableButtonContainer: {
-    marginVertical: 4,
-    marginHorizontal: 8,
+    marginVertical: vs(4),
+    marginHorizontal: hs(8),
   },
 });

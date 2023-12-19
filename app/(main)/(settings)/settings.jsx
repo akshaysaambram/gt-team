@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { View, useColorScheme } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import {
   Button,
   Dialog,
@@ -17,7 +17,6 @@ import useAppStore from '../../store/appStore';
 export default function Settings() {
   const theme = useTheme();
   const router = useRouter();
-  const colorScheme = useColorScheme();
 
   const [visible, setVisible] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(false);
@@ -32,8 +31,8 @@ export default function Settings() {
 
   return (
     <View className="flex-1 p-4" style={{ backgroundColor: theme.colors.background }}>
-      <View className="">
-        <List.Section className="">
+      <View>
+        <List.Section>
           <List.Subheader style={{ color: theme.colors.primary }}>Display</List.Subheader>
           <Divider />
           <List.Item
@@ -47,7 +46,7 @@ export default function Settings() {
             }}
           />
         </List.Section>
-        <List.Section className="">
+        <List.Section>
           <List.Subheader style={{ color: theme.colors.primary }}>Animation</List.Subheader>
           <Divider />
           <List.Item

@@ -24,18 +24,6 @@ export default function Login() {
     <View
       className="flex-1 items-center justify-center gap-y-3"
       style={{ backgroundColor: theme.colors.background }}>
-      {/* <LottieView
-        autoPlay
-        loop={animationLoop}
-        style={{
-          width: hs(600),
-          height: vs(900),
-          position: 'absolute',
-        }}
-        // Find more Lottie files at https://lottiefiles.com/featured
-        source={require('../assets/lottie-files/splash.json')}
-      /> */}
-
       <View className="items-center gap-y-1">
         <Text
           variant="displayMedium"
@@ -46,18 +34,15 @@ export default function Login() {
           Unity Growth Co.
         </Text>
       </View>
-      <View className="">
-        <LottieView
-          autoPlay
-          loop={animationLoop}
-          style={{
-            width: hs(100),
-            height: vs(100),
-          }}
-          // Find more Lottie files at https://lottiefiles.com/featured
-          source={require('../assets/lottie-files/login.json')}
-        />
-      </View>
+      <LottieView
+        autoPlay
+        loop={animationLoop}
+        style={{
+          width: hs(100),
+          height: vs(100),
+        }}
+        source={require('../assets/lottie-files/login.json')}
+      />
       <View className="gap-y-4">
         <TextInput
           mode="outlined"
@@ -76,10 +61,14 @@ export default function Login() {
           style={styles.textInput}
         />
       </View>
-      <Button className="" mode="text" style={styles.btnForgetPassword}>
+      <Button className="items-center justify-center" mode="text" style={styles.btnForgetPassword}>
         Forget Password?
       </Button>
-      <Button className="" mode="contained" style={styles.btnLogin} onPress={handleLogin}>
+      <Button
+        className="items-center justify-center"
+        mode="contained"
+        style={styles.btnLogin}
+        onPress={handleLogin}>
         Login
       </Button>
     </View>
@@ -105,7 +94,8 @@ const styles = StyleSheet.create({
   },
   btnForgetPassword: { width: hs(175), height: vs(50) },
   btnLogin: {
-    width: hs(100),
-    height: vs(50),
+    // width: hs(100),
+    // height: vs(50),
+    transform: [{ scale: ms(1) }],
   },
 });
