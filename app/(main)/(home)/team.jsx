@@ -1,8 +1,11 @@
+import useUserStore from 'app/store/userStore';
 import { useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Avatar, Button, Card, useTheme } from 'react-native-paper';
+import { db } from 'utils/firebase';
 import { hs, vs, ms } from 'utils/metrics';
 
 export default function Team() {
@@ -10,9 +13,11 @@ export default function Team() {
   const router = useRouter();
   const swipeableRefs = useRef([]);
 
+  const team = useUserStore((state) => state.team);
+  const setTeam = useUserStore((state) => state.setTeam);
   const [openIndex, setOpenIndex] = useState(null);
 
-  const renderRightActions = (index) => () => {
+  const renderRightActions = (index, uid) => () => {
     return (
       <View style={styles.rightActions}>
         <View style={styles.swipeableButtonContainer}>
@@ -20,7 +25,7 @@ export default function Team() {
             mode="contained"
             onPress={() => {
               setOpenIndex(index === openIndex ? null : index);
-              router.push('/[id]');
+              router.push(`/${uid}`);
             }}>
             Explore
           </Button>
@@ -37,34 +42,32 @@ export default function Team() {
     });
   };
 
-  const renderItem = ({ index }) => (
+  const renderItem = ({ item, index }) => (
     <Swipeable
       ref={(ref) => (swipeableRefs.current[index] = ref)}
-      renderRightActions={renderRightActions(index)}
+      renderRightActions={renderRightActions(index, item.uid)}
       overshootRight={false}
       onSwipeableWillOpen={() => closeAllSwipesExcept(index)}>
       <Card style={{ margin: ms(8) }}>
         <Card.Title
-          title="Akshay Saambram"
-          subtitle="Machine Learning Engineer"
-          left={(props) => <Avatar.Text {...props} size={ms(48)} label="Ar" />}
+          title={item.fullName}
+          subtitle={item.role}
+          left={(props) => <Avatar.Text {...props} size={ms(48)} label={item.XD} />}
+          style={{ gap: ms(12) }}
         />
       </Card>
     </Swipeable>
   );
 
-  // useCallback(() => {
-  //   const closeAllSwipes = () => {
-  //     swipeableRefs.current.forEach((swipeable) => {
-  //       if (swipeable && swipeable.close) {
-  //         swipeable.close();
-  //       }
-  //     });
-  //   };
+  async function getTeam() {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const teamData = querySnapshot.docs.map((doc) => ({ ...doc.data(), uid: doc.id }));
+    setTeam(teamData);
+  }
 
-  //   closeAllSwipes();
-  //   setOpenIndex(null);
-  // }, []);
+  useEffect(() => {
+    getTeam();
+  }, []);
 
   return (
     <ScrollView
@@ -75,11 +78,7 @@ export default function Team() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-grow">
-        <FlatList
-          data={Array.from({ length: 14 })}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={renderItem}
-        />
+        <FlatList data={team} keyExtractor={(item) => item.uid} renderItem={renderItem} />
       </View>
     </ScrollView>
   );

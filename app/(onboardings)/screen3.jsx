@@ -28,7 +28,6 @@ export default function Screen3() {
         }}
         source={require('../../assets/Onboarding/skills.json')}
       />
-      <Text style={styles.textHeadlineLarge}>Elevate Your Skills</Text>
       <Text className="text-center px-4" style={styles.textTitleMedium}>
         🚀 Unlock your full potential with Unity Growth Co.
       </Text>
@@ -41,10 +40,10 @@ export default function Screen3() {
         className="w-full p-1"
         mode="contained"
         onPress={() => {
-          setIsInitialLaunch(false);
+          setIsInitialLaunch();
           router.replace('/login');
         }}>
-        Let's Grow Together
+        Elevate Your Skills
       </Button>
     </View>
   );
@@ -56,12 +55,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: ms(16),
-  },
-  textHeadlineLarge: {
-    fontSize: ms(24),
-    fontWeight: '400',
-    letterSpacing: 0,
-    lineHeight: ms(32),
   },
   textTitleMedium: {
     fontSize: ms(16),

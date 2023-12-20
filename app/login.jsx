@@ -1,9 +1,16 @@
-import { useRouter } from 'expo-router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Dialog,
+  Portal,
+  Text,
+  TextInput,
+  useTheme,
+} from 'react-native-paper';
 
 import useAppStore from './store/appStore';
 import { auth } from '../utils/firebase';
@@ -11,21 +18,44 @@ import { hs, vs, ms } from '../utils/metrics';
 
 export default function Login() {
   const theme = useTheme();
-  const router = useRouter();
 
-  const [email, setEmail] = useState('akshaysaambram@gmail.com');
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('akshaysrinivas1524@gmail.com');
   const [password, setPassword] = useState('Akshay123');
   const [secureText, setSecureText] = useState(true);
 
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
 
+  const [error, setError] = useState(null);
+  const [visibleDialog, setVisibleDialog] = useState(false);
+
   async function handleLogin() {
+    setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {})
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setError(`Error Code : ${errorCode}\nError Message: ${errorMessage}`);
+        setVisibleDialog(true);
       });
+    setLoading(false);
+  }
+
+  async function handleForgetPassword() {
+    setLoading(true);
+    await sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setError(`Password reset mail sent to ${email}`);
+        setVisibleDialog(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(`Error Code : ${errorCode}\nError Message: ${errorMessage}`);
+        setVisibleDialog(true);
+      });
+    setLoading(false);
   }
 
   return (
@@ -92,22 +122,43 @@ export default function Login() {
           }
         />
       </View>
-      <Button
-        mode="text"
-        labelStyle={{ fontSize: ms(14) }}
-        className="items-center justify-center"
-        style={styles.btnForgetPassword}>
-        Forget Password?
-      </Button>
-      <Button
-        mode="contained"
-        className="items-center justify-center"
-        labelStyle={{ fontSize: ms(14) }}
-        contentStyle={styles.btnLogin}
-        style={{ borderRadius: ms(50) }}
-        onPress={handleLogin}>
-        Login
-      </Button>
+      {loading ? (
+        <View style={{ padding: vs(36) }}>
+          <ActivityIndicator size={ms(36)} color={theme.colors.primary} />
+        </View>
+      ) : (
+        <>
+          <Button
+            mode="text"
+            labelStyle={{ fontSize: ms(14) }}
+            className="items-center justify-center"
+            style={styles.btnForgetPassword}
+            onPress={handleForgetPassword}>
+            Forget Password?
+          </Button>
+          <Button
+            mode="contained"
+            className="items-center justify-center"
+            labelStyle={{ fontSize: ms(14) }}
+            contentStyle={styles.btnLogin}
+            style={{ borderRadius: ms(50) }}
+            onPress={handleLogin}>
+            Login
+          </Button>
+        </>
+      )}
+
+      <Portal>
+        <Dialog visible={visibleDialog} onDismiss={() => setVisibleDialog(false)}>
+          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Content>
+            <Text variant="bodyMedium">{error}</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setVisibleDialog(false)}>Close</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </ScrollView>
   );
 }

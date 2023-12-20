@@ -1,5 +1,7 @@
+import useUserStore from 'app/store/userStore';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
+import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Avatar, Button, IconButton, Text, useTheme } from 'react-native-paper';
@@ -11,6 +13,7 @@ export default function Home() {
   const theme = useTheme();
   const router = useRouter();
 
+  const userDoc = useUserStore((state) => state.authUserDoc);
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
 
   return (
@@ -23,20 +26,30 @@ export default function Home() {
       }}>
       <View className="flex-grow" style={{ gap: vs(12) }}>
         <View className="flex-row items-center justify-between px-4">
-          <Avatar.Text size={ms(56)} label="Ar" />
+          <Skeleton show={userDoc.XD === null} height={ms(56)} width={ms(56)} radius="round">
+            <Avatar.Text size={ms(56)} label={userDoc.XD} />
+          </Skeleton>
           <IconButton icon="account" size={ms(20)} onPress={() => router.push('/profile')} />
         </View>
-        <View className="px-4">
-          <Text variant="displaySmall" style={styles.textDisplaySmall}>
-            Hello Akshay,
-          </Text>
-          <Text variant="bodyMedium" style={styles.textBodyMedium}>
-            Machine Learning Engineer
-          </Text>
-          <Text variant="bodyMedium" style={styles.textBodyMedium}>
-            9347855546
-          </Text>
-        </View>
+        <Skeleton.Group show={userDoc.firstName === null}>
+          <View className="px-4">
+            <Skeleton height={vs(52)} width={hs(250)}>
+              <Text variant="displaySmall" style={styles.textDisplaySmall}>
+                Hello {userDoc.firstName},
+              </Text>
+            </Skeleton>
+            <Skeleton height={vs(24)} width={hs(200)}>
+              <Text variant="bodyMedium" style={styles.textBodyMedium}>
+                {userDoc.role}
+              </Text>
+            </Skeleton>
+            <Skeleton height={vs(24)} width={hs(150)}>
+              <Text variant="bodyMedium" style={styles.textBodyMedium}>
+                {userDoc.phoneNumber}
+              </Text>
+            </Skeleton>
+          </View>
+        </Skeleton.Group>
         <View className="items-center">
           <LottieView
             autoPlay

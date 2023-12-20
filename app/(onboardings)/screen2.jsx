@@ -25,7 +25,7 @@ export default function Screen2() {
         }}
         source={require('../../assets/Onboarding/connect.json')}
       />
-      <Text style={styles.textHeadlineLarge}>Connect & Collaborate</Text>
+
       <Text className="text-center px-4" style={styles.textTitleMedium}>
         🤝 Unity Growth Co. is your hub for collaborative growth in the IT realm.
       </Text>
@@ -35,7 +35,7 @@ export default function Screen2() {
         everyone. Let's elevate our skills and careers together!
       </Text>
       <Button className="w-full p-1" mode="contained" onPress={() => router.replace('/screen3')}>
-        Let's Connect
+        Connect & Collaborate
       </Button>
     </View>
   );
@@ -47,12 +47,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: ms(16),
-  },
-  textHeadlineLarge: {
-    fontSize: ms(24),
-    fontWeight: '400',
-    letterSpacing: 0,
-    lineHeight: ms(32),
   },
   textTitleMedium: {
     fontSize: ms(16),

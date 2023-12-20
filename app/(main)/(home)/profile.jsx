@@ -1,3 +1,4 @@
+import useUserStore from 'app/store/userStore';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -9,6 +10,8 @@ export default function Profile() {
   const theme = useTheme();
   const router = useRouter();
 
+  const userDoc = useUserStore((state) => state.authUserDoc);
+
   return (
     <ScrollView
       className="flex-1"
@@ -19,7 +22,7 @@ export default function Profile() {
       }}>
       <View className="flex-grow items-center justify-center" style={{ gap: vs(16) }}>
         <View className="w-full relative">
-          <Avatar.Text className="self-center" size={ms(124)} label="Ar" />
+          <Avatar.Text className="self-center" size={ms(124)} label={userDoc.XD} />
           <IconButton
             className="absolute bottom-0 right-0"
             icon="account-edit"
@@ -27,17 +30,21 @@ export default function Profile() {
             onPress={() => router.push('/edit_profile')}
           />
         </View>
+
         <Text variant="headlineLarge" style={styles.textHeadlineLarge}>
-          Akshay Saambram
+          {userDoc.fullName}
         </Text>
+
         <Text variant="titleMedium" style={styles.textTitleMedium}>
-          akshaysaambram@gmail.com
+          {userDoc.email}
         </Text>
+
         <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          Machine Learning Engineer
+          {userDoc.role}
         </Text>
+
         <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          9347855546
+          {userDoc.phoneNumber}
         </Text>
       </View>
     </ScrollView>

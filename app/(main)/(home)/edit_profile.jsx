@@ -1,18 +1,34 @@
-import { useRouter } from 'expo-router';
+import useUserStore from 'app/store/userStore';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Button, TextInput, useTheme } from 'react-native-paper';
+import { Avatar, ActivityIndicator, Button, TextInput, useTheme } from 'react-native-paper';
+import { auth, db } from 'utils/firebase';
 import { hs, vs, ms } from 'utils/metrics';
 
 export default function EditProfile() {
   const theme = useTheme();
   const router = useRouter();
-  const [userDoc, setUserDoc] = useState({
-    fullName: 'Akshay Saambram',
-    email: 'akshay.saambram@gmail.com',
-    role: 'Machine Learning Engineer',
-    phoneNumber: '934785546',
-  });
+  const { firstLogin } = useLocalSearchParams();
+
+  const [loading, setLoading] = useState(false);
+  const userDoc = useUserStore((state) => state.authUserDoc);
+  const setUserDoc = useUserStore((state) => state.setAuthUserDoc);
+
+  async function handleOnSave() {
+    setLoading(true);
+    await updateProfile(auth.currentUser, {
+      displayName: userDoc.fullName,
+      photoURL: userDoc.photoURL,
+    });
+
+    await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+      ...userDoc,
+    }).then(() => (router.canGoBack() ? router.back() : router.replace('/(main)/(home)/home')));
+    setLoading(false);
+  }
 
   return (
     <ScrollView
@@ -23,15 +39,46 @@ export default function EditProfile() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-grow items-center justify-center" style={{ gap: vs(24) }}>
-        <Avatar.Text className="self-center" size={ms(124)} label="Ar" />
+        <Avatar.Text className="self-center" size={ms(124)} label={userDoc.XD} />
 
         <TextInput
-          label="Fullname"
-          placeholder="Fullname"
+          label="XD"
+          placeholder="XD"
+          mode="outlined"
+          textContentType="nickname"
+          value={userDoc.XD}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, XD: txt })}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="First Name"
+          placeholder="First Name"
+          mode="outlined"
+          textContentType="name"
+          value={userDoc.firstName}
+          onChangeText={(txt) =>
+            setUserDoc({ ...userDoc, firstName: txt, fullName: `${txt} ${userDoc.lastName}` })
+          }
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Last Name"
+          placeholder="Last Name"
+          mode="outlined"
+          textContentType="name"
+          value={userDoc.lastName}
+          onChangeText={(txt) =>
+            setUserDoc({ ...userDoc, lastName: txt, fullName: `${userDoc.firstName} ${txt}` })
+          }
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Full Name"
+          placeholder="Full Name"
           mode="outlined"
           textContentType="name"
           value={userDoc.fullName}
-          onChangeText={(txt) => setUserDoc({ ...userDoc, fullName: txt })}
+          onChangeText={(txt) => setUserDoc({ ...userDoc, displayName: txt, fullName: txt })}
           style={styles.textInput}
         />
         <TextInput
@@ -39,6 +86,7 @@ export default function EditProfile() {
           placeholder="Email"
           mode="outlined"
           textContentType="emailAddress"
+          readOnly
           value={userDoc.email}
           onChangeText={(txt) => setUserDoc({ ...userDoc, email: txt })}
           style={styles.textInput}
@@ -62,9 +110,13 @@ export default function EditProfile() {
           keyboardType="number-pad"
           style={styles.textInput}
         />
-        <Button mode="contained" style={styles.btnSave} onPress={() => router.back()}>
-          Save
-        </Button>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Button mode="contained" style={styles.btnSave} onPress={handleOnSave}>
+            Save
+          </Button>
+        )}
       </View>
     </ScrollView>
   );

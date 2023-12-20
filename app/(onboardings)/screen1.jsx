@@ -25,7 +25,6 @@ export default function Screen1() {
         }}
         source={require('../../assets/Onboarding/together.json')}
       />
-      <Text style={styles.textHeadlineLarge}>Welcome to Unity Growth Co.</Text>
       <Text className="text-center px-4" style={styles.textTitleMedium}>
         🌱 Grow Together with Unity Growth Co.
       </Text>
@@ -48,12 +47,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: ms(16),
-  },
-  textHeadlineLarge: {
-    fontSize: ms(24),
-    fontWeight: '400',
-    letterSpacing: 0,
-    lineHeight: ms(32),
   },
   textTitleMedium: {
     fontSize: ms(16),

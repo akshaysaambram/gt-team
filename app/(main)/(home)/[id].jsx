@@ -1,3 +1,5 @@
+import useUserStore from 'app/store/userStore';
+import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Text, useTheme } from 'react-native-paper';
@@ -6,6 +8,10 @@ import { vs, ms } from '../../../utils/metrics';
 
 export default function Profile() {
   const theme = useTheme();
+  const { id } = useLocalSearchParams();
+
+  const team = useUserStore((state) => state.team);
+  const teamUser = team.find((user) => user.uid === id);
 
   return (
     <ScrollView
@@ -16,18 +22,18 @@ export default function Profile() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-grow items-center justify-center p-4" style={{ gap: vs(16) }}>
-        <Avatar.Text size={ms(124)} label="Ar" />
+        <Avatar.Text size={ms(124)} label={teamUser.XD} />
         <Text variant="headlineLarge" style={styles.textHeadlineLarge}>
-          Akshay Saambram
+          {teamUser.fullName}
         </Text>
         <Text variant="titleMedium" style={styles.textTitleMedium}>
-          akshaysaambram@gmail.com
+          {teamUser.email}
         </Text>
         <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          Machine Learning Engineer
+          {teamUser.role}
         </Text>
         <Text variant="bodyMedium" style={styles.textBodyMedium}>
-          9347855546
+          {teamUser.phoneNumber}
         </Text>
       </View>
     </ScrollView>
