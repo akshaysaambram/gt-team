@@ -22,7 +22,15 @@ export default function Profile() {
       }}>
       <View className="flex-grow items-center justify-center" style={{ gap: vs(16) }}>
         <View className="w-full relative">
-          <Avatar.Text className="self-center" size={ms(124)} label={userDoc.XD} />
+          {userDoc.photoURL === null ? (
+            <Avatar.Text className="self-center" size={ms(124)} label={userDoc.XD} />
+          ) : (
+            <Avatar.Image
+              className="self-center"
+              size={ms(124)}
+              source={{ uri: userDoc.photoURL }}
+            />
+          )}
           <IconButton
             className="absolute bottom-0 right-0"
             icon="account-edit"
@@ -46,6 +54,12 @@ export default function Profile() {
         <Text variant="bodyMedium" style={styles.textBodyMedium}>
           {userDoc.phoneNumber}
         </Text>
+
+        {userDoc.bio !== null && userDoc.bio !== '' && (
+          <Text variant="bodyMedium" style={styles.textBodyMedium}>
+            {userDoc.bio}
+          </Text>
+        )}
       </View>
     </ScrollView>
   );

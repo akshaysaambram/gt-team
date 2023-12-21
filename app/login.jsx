@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -13,26 +14,60 @@ import {
 } from 'react-native-paper';
 
 import useAppStore from './store/appStore';
-import { auth } from '../utils/firebase';
+import useUserStore from './store/userStore';
+import { auth, db } from '../utils/firebase';
 import { hs, vs, ms } from '../utils/metrics';
 
 export default function Login() {
   const theme = useTheme();
 
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('akshaysrinivas1524@gmail.com');
-  const [password, setPassword] = useState('Akshay123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [secureText, setSecureText] = useState(true);
 
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
+  const setAuthUserDoc = useUserStore((state) => state.setAuthUserDoc);
 
   const [error, setError] = useState(null);
   const [visibleDialog, setVisibleDialog] = useState(false);
 
+  async function getUserDetails() {
+    const user = auth.currentUser;
+
+    onSnapshot(doc(db, 'users', user.uid), (userDoc) => {
+      if (!userDoc.data()) {
+        setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          photoURL: user.photoURL,
+          phoneNumber: user.phoneNumber,
+
+          XD: user.email.slice(0, 2),
+          linkedIn: null,
+          firstName: null,
+          lastName: null,
+          gender: null,
+          role: null,
+          bio: null,
+          fullName: null,
+          lastLogin: new Date().toISOString(),
+          isAdmin: false,
+        });
+      }
+
+      setAuthUserDoc({ ...userDoc.data() });
+    });
+  }
+
   async function handleLogin() {
     setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
-      .then(() => {})
+      .then(() => {
+        getUserDetails();
+      })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -178,7 +213,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: hs(300),
-    height: vs(64),
+    height: vs(56),
   },
   btnForgetPassword: { width: hs(175), height: vs(50) },
   btnLogin: {

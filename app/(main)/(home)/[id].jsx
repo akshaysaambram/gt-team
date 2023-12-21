@@ -22,7 +22,15 @@ export default function Profile() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-grow items-center justify-center p-4" style={{ gap: vs(16) }}>
-        <Avatar.Text size={ms(124)} label={teamUser.XD} />
+        {teamUser.photoURL === null ? (
+          <Avatar.Text className="self-center" size={ms(124)} label={teamUser.XD} />
+        ) : (
+          <Avatar.Image
+            className="self-center"
+            size={ms(124)}
+            source={{ uri: teamUser.photoURL }}
+          />
+        )}
         <Text variant="headlineLarge" style={styles.textHeadlineLarge}>
           {teamUser.fullName}
         </Text>

@@ -1,10 +1,9 @@
 import { useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { useLayoutEffect } from 'react';
 import { AppRegistry, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import { auth, db } from 'utils/firebase';
+import { auth } from 'utils/firebase';
 
 import useAppStore from './store/appStore';
 import useUserStore from './store/userStore';
@@ -18,52 +17,17 @@ export default function App() {
   const isInitialLaunch = useAppStore((state) => state.isInitialLaunch);
   const setAuthUserDoc = useUserStore((state) => state.setAuthUserDoc);
 
-  async function getUserDetails() {
-    const user = auth.currentUser;
-
-    onSnapshot(doc(db, 'users', user.uid), (userDoc) => {
-      if (!userDoc.data()) {
-        setDoc(doc(db, 'users', user.uid), {
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          emailVerified: user.emailVerified,
-          photoURL: user.photoURL,
-          phoneNumber: user.phoneNumber,
-
-          XD: user.email.slice(0, 2),
-          linkedIn: null,
-          firstName: null,
-          lastName: null,
-          gender: null,
-          role: null,
-          bio: null,
-          fullName: null,
-          lastLogin: new Date().toISOString(),
-          isAdmin: false,
-        });
-
-        return true;
-      }
-
-      setAuthUserDoc({ ...userDoc.data() });
-      return false;
-    });
-  }
-
   useLayoutEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const firstRoute = getUserDetails();
-
-        if (firstRoute) {
-          router.replace('/edit_profile', { firstLogin: true });
+        if (user.displayName === null) {
+          router.replace('/(main)/(home)/edit_profile');
         } else {
           router.replace('/(main)/(home)/home');
         }
       } else {
         setAuthUserDoc({});
-        return isInitialLaunch
+        return isInitialLaunch === true
           ? router.replace('/(onboardings)/screen1')
           : router.replace('/login');
       }

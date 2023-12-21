@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { Linking, StyleSheet, ScrollView, View } from 'react-native';
 import { Avatar, Button, IconButton, Text, useTheme } from 'react-native-paper';
 
 import { hs, vs, ms } from '../../../utils/metrics';
@@ -24,14 +24,18 @@ export default function Home() {
         padding: ms(12),
         backgroundColor: theme.colors.background,
       }}>
-      <View className="flex-grow" style={{ gap: vs(12) }}>
+      <View className="flex-grow justify-evenly" style={{ gap: vs(12) }}>
         <View className="flex-row items-center justify-between px-4">
           <Skeleton show={userDoc.XD === null} height={ms(56)} width={ms(56)} radius="round">
-            <Avatar.Text size={ms(56)} label={userDoc.XD} />
+            {userDoc.photoURL === null ? (
+              <Avatar.Text size={ms(56)} label={userDoc.XD} />
+            ) : (
+              <Avatar.Image size={ms(56)} source={{ uri: userDoc.photoURL }} />
+            )}
           </Skeleton>
           <IconButton icon="account" size={ms(20)} onPress={() => router.push('/profile')} />
         </View>
-        <Skeleton.Group show={userDoc.firstName === null}>
+        <Skeleton.Group show={userDoc.fullName === null}>
           <View className="px-4">
             <Skeleton height={vs(52)} width={hs(250)}>
               <Text variant="displaySmall" style={styles.textDisplaySmall}>
@@ -68,9 +72,16 @@ export default function Home() {
           </Text>
         </View>
         <View className="flex-row items-center justify-center mb-3 gap-x-4">
-          <Button mode="contained" style={styles.btn}>
-            LinkedIn
-          </Button>
+          {userDoc.linkedIn !== null && userDoc.linkedIn !== '' && (
+            <Button
+              mode="contained"
+              style={styles.btn}
+              onPress={async () => {
+                await Linking.openURL(userDoc.linkedIn);
+              }}>
+              LinkedIn
+            </Button>
+          )}
           <Button mode="outlined" style={styles.btn} onPress={() => router.push('/team')}>
             Team
           </Button>

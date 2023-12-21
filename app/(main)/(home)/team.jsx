@@ -52,7 +52,18 @@ export default function Team() {
         <Card.Title
           title={item.fullName}
           subtitle={item.role}
-          left={(props) => <Avatar.Text {...props} size={ms(48)} label={item.XD} />}
+          left={(props) =>
+            item.photoURL === null ? (
+              <Avatar.Text {...props} className="self-center" size={ms(48)} label={item.XD} />
+            ) : (
+              <Avatar.Image
+                {...props}
+                className="self-center"
+                size={ms(48)}
+                source={{ uri: item.photoURL }}
+              />
+            )
+          }
           style={{ gap: ms(12) }}
         />
       </Card>
@@ -78,7 +89,13 @@ export default function Team() {
         backgroundColor: theme.colors.background,
       }}>
       <View className="flex-grow">
-        <FlatList data={team} keyExtractor={(item) => item.uid} renderItem={renderItem} />
+        <FlatList
+          data={team}
+          scrollEnabled={false}
+          nestedScrollEnabled
+          keyExtractor={(item) => item.uid}
+          renderItem={renderItem}
+        />
       </View>
     </ScrollView>
   );

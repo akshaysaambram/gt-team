@@ -22,7 +22,10 @@ export default function AppInfo() {
         <Text variant="bodyLarge" style={styles.textBodyLarge}>
           Unity Growth Co.
         </Text>
-        <Text className="mb-4" variant="bodyMedium" style={styles.textBodyMedium}>
+        <Text
+          className="mb-4"
+          variant="bodyMedium"
+          style={[styles.textBodyMedium, { color: theme.colors.primary }]}>
           Version: 1.0.0
         </Text>
         <View
@@ -37,10 +40,19 @@ export default function AppInfo() {
             uGc
           </Text>
         </View>
-        <View className="flex-row items-center justify-center gap-x-1">
-          <Icon className="self-center" source="copyright" size={ms(16)} />
-          <Text variant="bodyMedium" style={styles.textBodyMedium}>
-            2010-2023 Unity Growth Co.
+        <View className="items-center justify-center gap-y-3">
+          <View className="flex-row items-center gap-x-3">
+            <Icon className="self-center" source="copyright" size={ms(16)} />
+            <Text variant="bodyMedium" style={styles.textBodyMedium}>
+              2010-2023 Unity Growth Co.
+            </Text>
+          </View>
+          <Text
+            className="text-center"
+            variant="bodyMedium"
+            style={[styles.textBodyMedium, { color: theme.colors.primary }]}>
+            The optimal experience of this application can be achieved on the Pixel 2 (API 30)
+            device, as it has been meticulously crafted to align with its specifications.
           </Text>
         </View>
       </View>

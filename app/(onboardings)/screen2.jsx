@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 import { hs, vs, ms } from 'utils/metrics';
 
 export default function Screen2() {
@@ -11,7 +11,7 @@ export default function Screen2() {
 
   return (
     <View
-      className="flex-1 items-center justify-evenly p-4"
+      className="flex-1 items-center justify-center p-4"
       style={{ backgroundColor: theme.colors.background, gap: vs(12) }}>
       <View className="items-center gap-x-6">
         <Text style={[styles.title, { color: theme.colors.primary }]}>uGc</Text>
@@ -20,8 +20,8 @@ export default function Screen2() {
       <LottieView
         autoPlay
         style={{
-          width: hs(200),
-          height: vs(200),
+          width: hs(250),
+          height: vs(250),
         }}
         source={require('../../assets/Onboarding/connect.json')}
       />
@@ -29,14 +29,30 @@ export default function Screen2() {
       <Text className="text-center px-4" style={styles.textTitleMedium}>
         🤝 Unity Growth Co. is your hub for collaborative growth in the IT realm.
       </Text>
-      <Text className="text-center" style={styles.textBodyMedium}>
+      <Text className="text-center px-2" style={styles.textBodyMedium}>
         Connect with like-minded individuals, share insights, and collaborate on projects. Whether
         you're a seasoned professional or just starting your journey, there's something for
         everyone. Let's elevate our skills and careers together!
       </Text>
-      <Button className="w-full p-1" mode="contained" onPress={() => router.replace('/screen3')}>
-        Connect & Collaborate
-      </Button>
+      <View className="flex-row items-center justify-stretch absolute bottom-2">
+        <IconButton
+          mode="outlined"
+          icon="arrow-left"
+          onPress={() => {
+            router.replace('/screen1');
+          }}
+        />
+        <Button className="flex-grow m-2 p-1" mode="contained">
+          Connect & Collaborate
+        </Button>
+        <IconButton
+          mode="outlined"
+          icon="arrow-right"
+          onPress={() => {
+            router.replace('/screen3');
+          }}
+        />
+      </View>
     </View>
   );
 }
