@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { AppRegistry, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { auth } from 'utils/firebase';
+import { useShallow } from 'zustand/react/shallow';
 
 import useAppStore from './store/appStore';
 import useUserStore from './store/userStore';
@@ -15,9 +16,11 @@ export default function App() {
   const router = useRouter();
 
   const isInitialLaunch = useAppStore((state) => state.isInitialLaunch);
-  const setAuthUserDoc = useUserStore((state) => state.setAuthUserDoc);
+  const [authUserDoc, setAuthUserDoc] = useUserStore(
+    useShallow((state) => [state.authUserDoc, state.setAuthUserDoc])
+  );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user.displayName === null) {
@@ -32,7 +35,7 @@ export default function App() {
           : router.replace('/login');
       }
     });
-  }, []);
+  }, [authUserDoc]);
 
   return (
     <View

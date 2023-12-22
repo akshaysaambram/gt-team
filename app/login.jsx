@@ -21,9 +21,9 @@ import { hs, vs, ms } from '../utils/metrics';
 export default function Login() {
   const theme = useTheme();
 
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [secureText, setSecureText] = useState(true);
 
   const animationLoop = useAppStore((state) => state.animationLoop) === 'loop';
@@ -55,10 +55,12 @@ export default function Login() {
           fullName: null,
           lastLogin: new Date().toISOString(),
           isAdmin: false,
+          isFilled: false,
         });
       }
 
       setAuthUserDoc({ ...userDoc.data() });
+      console.log(userDoc.data());
     });
   }
 

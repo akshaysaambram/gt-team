@@ -7,15 +7,15 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Avatar, Button, Card, useTheme } from 'react-native-paper';
 import { db } from 'utils/firebase';
 import { hs, vs, ms } from 'utils/metrics';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function Team() {
   const theme = useTheme();
   const router = useRouter();
   const swipeableRefs = useRef([]);
 
-  const team = useUserStore((state) => state.team);
-  const setTeam = useUserStore((state) => state.setTeam);
   const [openIndex, setOpenIndex] = useState(null);
+  const [team, setTeam] = useUserStore(useShallow((state) => [state.team, state.setTeam]));
 
   const renderRightActions = (index, uid) => () => {
     return (

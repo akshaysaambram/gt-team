@@ -106,10 +106,12 @@ export default function EditProfile() {
 
   async function handleOnSave() {
     setLoading(true);
+    setUserDoc({ ...userDoc, isFilled: true });
     await updateUserProfile(userDoc.displayName, userDoc.photoURL);
 
     await updateDoc(doc(db, 'users', auth.currentUser.uid), {
       ...userDoc,
+      isFilled: true,
     }).then(() => (router.canGoBack() ? router.back() : router.replace('/(main)/(home)/home')));
     setLoading(false);
   }

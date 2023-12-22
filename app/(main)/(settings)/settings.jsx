@@ -12,6 +12,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import { vs } from 'utils/metrics';
+import { useShallow } from 'zustand/react/shallow';
 
 import { auth } from '../../../utils/firebase';
 import useAppStore from '../../store/appStore';
@@ -24,10 +25,13 @@ export default function Settings() {
   const [dialogTitle, setDialogTitle] = useState(false);
   const [dialogContent, setDialogContent] = useState(false);
 
-  const themeScheme = useAppStore((state) => state.themeScheme);
-  const setThemeScheme = useAppStore((state) => state.setThemeScheme);
-  const animationLoop = useAppStore((state) => state.animationLoop);
-  const setAnimationLoop = useAppStore((state) => state.setAnimationLoop);
+  const [themeScheme, setThemeScheme] = useAppStore(
+    useShallow((state) => [state.themeScheme, state.setThemeScheme])
+  );
+
+  const [animationLoop, setAnimationLoop] = useAppStore(
+    useShallow((state) => [state.animationLoop, state.setAnimationLoop])
+  );
 
   const [expandList, setExpandList] = useState(false);
 
