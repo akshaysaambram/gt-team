@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { AppRegistry, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { auth } from 'utils/firebase';
-import { useShallow } from 'zustand/react/shallow';
 
 import useAppStore from './store/appStore';
 import useUserStore from './store/userStore';
@@ -16,26 +15,20 @@ export default function App() {
   const router = useRouter();
 
   const isInitialLaunch = useAppStore((state) => state.isInitialLaunch);
-  const [authUserDoc, setAuthUserDoc] = useUserStore(
-    useShallow((state) => [state.authUserDoc, state.setAuthUserDoc])
-  );
+  const setAuthUserDoc = useUserStore((state) => state.setAuthUserDoc);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        if (user.displayName === null) {
-          router.replace('/(main)/(home)/edit_profile');
-        } else {
-          router.replace('/(main)/(home)/home');
-        }
+        if (user.displayName === null) router.replace('/(main)/(home)/edit_profile');
+        else router.replace('/(main)/(home)/home');
       } else {
         setAuthUserDoc({});
-        return isInitialLaunch === true
-          ? router.replace('/(onboardings)/screen1')
-          : router.replace('/login');
+        if (isInitialLaunch === true) router.replace('/(onboardings)/screen1');
+        else router.replace('/login');
       }
     });
-  }, [authUserDoc]);
+  }, [auth]);
 
   return (
     <View

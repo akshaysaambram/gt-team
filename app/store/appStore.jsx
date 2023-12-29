@@ -6,7 +6,7 @@ const useAppStore = create(
   persist(
     (set) => ({
       isInitialLaunch: true,
-      setIsInitialLaunch: () => set(() => ({ isInitialLaunch: false })),
+      setIsInitialLaunch: (payload) => set(() => ({ isInitialLaunch: payload })),
 
       themeScheme: 'system',
       setThemeScheme: (payload) => set(() => ({ themeScheme: payload })),

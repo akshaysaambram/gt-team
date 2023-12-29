@@ -1,5 +1,6 @@
+import { firebase } from 'firebase';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -35,7 +36,7 @@ export default function Login() {
   async function getUserDetails() {
     const user = auth.currentUser;
 
-    onSnapshot(doc(db, 'users', user.uid), (userDoc) => {
+    const unsubscribe = onSnapshot(doc(db, 'users', user.uid), (userDoc) => {
       if (!userDoc.data()) {
         setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
@@ -53,15 +54,23 @@ export default function Login() {
           role: null,
           bio: null,
           fullName: null,
-          lastLogin: new Date().toISOString(),
+          firstLogin: firebase.firestore.FieldValue.serverTimestamp(),
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
           isAdmin: false,
           isFilled: false,
         });
       }
+      // else {
+      //   updateDoc(doc(db, 'users', user.uid), {
+      //     ...userDoc.data(),
+      //     lastLogin: new Date().toISOString(),
+      //   });
+      // }
 
       setAuthUserDoc({ ...userDoc.data() });
-      console.log(userDoc.data());
     });
+
+    return unsubscribe;
   }
 
   async function handleLogin() {

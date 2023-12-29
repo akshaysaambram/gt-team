@@ -164,8 +164,8 @@ export default function EditProfile() {
               setUserDoc({
                 ...userDoc,
                 firstName: txt,
-                fullName: `${txt} ${userDoc.lastName}`,
-                displayName: `${txt} ${userDoc.lastName}`,
+                fullName: `${txt} ${userDoc.lastName === null ? '' : userDoc.lastName}`,
+                displayName: `${txt} ${userDoc.lastName === null ? '' : userDoc.lastName}`,
               })
             }
             style={styles.textInput}
@@ -180,8 +180,8 @@ export default function EditProfile() {
               setUserDoc({
                 ...userDoc,
                 lastName: txt,
-                fullName: `${userDoc.firstName} ${txt}`,
-                displayName: `${userDoc.firstName} ${txt}`,
+                fullName: `${userDoc.firstName === null ? '' : userDoc.firstName} ${txt}`,
+                displayName: `${userDoc.firstName === null ? '' : userDoc.firstName} ${txt}`,
               })
             }
             style={styles.textInput}

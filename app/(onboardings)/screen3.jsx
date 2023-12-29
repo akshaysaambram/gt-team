@@ -1,10 +1,11 @@
-import useAppStore from 'app/store/appStore';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 import { hs, vs, ms } from 'utils/metrics';
+
+import useAppStore from '../store/appStore';
 
 export default function Screen3() {
   const theme = useTheme();
@@ -48,7 +49,7 @@ export default function Screen3() {
           className="flex-grow m-2 p-1"
           mode="contained"
           onPress={() => {
-            setIsInitialLaunch();
+            setIsInitialLaunch(false);
             router.replace('/login');
           }}>
           Elevate Your Skills
